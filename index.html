@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MoveIt Workshop Handout</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Helvetica Neue', sans-serif;
+            line-height: 1.6;
+            color: #ffffff;
+            background-color: #1a1a1a;
+            margin: 0;
+            padding: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            color: #ffffff;
+            margin-top: 30px;
+            margin-bottom: 15px;
+        }
+
+        h1 {
+            font-size: 2.5em;
+            text-align: center;
+            margin-bottom: 40px;
+            text-shadow: 0 0 10px rgba(255,255,255,0.3);
+        }
+
+        h2 {
+            font-size: 2em;
+            border-bottom: 2px solid #4a9eff;
+            padding-bottom: 10px;
+        }
+
+        h3 {
+            font-size: 1.5em;
+            color: #4a9eff;
+        }
+
+        p {
+            margin-bottom: 15px;
+        }
+
+        a {
+            color: #4a9eff;
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        code {
+            background-color: #2d2d2d;
+            color: #ffffff;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+        }
+
+        pre {
+            background-color: #2d2d2d;
+            color: #ffffff;
+            padding: 15px;
+            border-radius: 8px;
+            overflow-x: auto;
+            position: relative;
+            margin: 20px 0;
+            border: 1px solid #404040;
+        }
+
+        pre code {
+            background-color: transparent;
+            padding: 0;
+        }
+
+        .copy-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background-color: #4a9eff;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 12px;
+            opacity: 0.8;
+            transition: opacity 0.3s;
+        }
+
+        .copy-btn:hover {
+            opacity: 1;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            background-color: #2d2d2d;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #404040;
+        }
+
+        th {
+            background-color: #4a9eff;
+            color: white;
+            font-weight: bold;
+        }
+
+        tr:nth-child(even) {
+            background-color: #333333;
+        }
+
+        ul, ol {
+            margin-bottom: 20px;
+            padding-left: 30px;
+        }
+
+        li {
+            margin-bottom: 8px;
+        }
+
+        blockquote {
+            border-left: 4px solid #4a9eff;
+            padding-left: 20px;
+            margin: 20px 0;
+            background-color: #2d2d2d;
+            padding: 15px 20px;
+            border-radius: 0 8px 8px 0;
+        }
+
+        img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+            margin: 20px 0;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+        }
+
+        .highlight {
+            background-color: #333333;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+            border-left: 4px solid #4a9eff;
+        }
+
+        .note {
+            background-color: #2d2d2d;
+            padding: 15px 20px;
+            border-radius: 8px;
+            margin: 15px 0;
+            border-left: 4px solid #ffa500;
+            font-style: italic;
+        }
+
+        .tip {
+            background-color: #2d2d2d;
+            padding: 15px 20px;
+            border-radius: 8px;
+            margin: 15px 0;
+            border-left: 4px solid #00cc66;
+            font-style: italic;
+        }
+
+        .prereq-badge {
+            background-color: #ff6b6b;
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.9em;
+            display: inline-block;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    
+    <h1>MoveIt Workshop Handout</h1>
+
+    <div class="highlight">
+        <h2>Welcome to Your MoveIt Guidebook</h2>
+        <p>This is your step-by-step guide to learning MoveIt with the Panda robotic arm. Follow along with each section to explore RViz and motion planning hands-on.</p>
+    </div>
+
+    <hr>
+
+    <h2>Hands-On: Interact with Your Robotic Arm</h2>
+
+    <h3>Project Zero</h3>
+    <p>In this section, you will explore RViz and get familiar with the MoveIt environment before diving into motion planning.</p>
+
+    <h3>Step 1: Launch the Demo</h3>
+    <p>Start the MoveIt demo with RViz:</p>
+    <pre><button class="copy-btn" onclick="copyCode(this)">Copy</button><code>cd ~/ws_moveit2
+source install/setup.bash
+unset GTK_PATH
+export LD_LIBRARY_PATH=$(echo "$LD_LIBRARY_PATH" | tr ':' '\n' | grep -v snap | tr '\n' ':')
+ros2 launch moveit2_tutorials demo.launch.py rviz_config:=panda_moveit_config_demo_empty.rviz</code></pre>
+
+    <p>You will see an empty RViz world. You now need to add the Motion Planning plugin.</p>
+    <img src="images/1.png" alt="Empty RViz World">
+    <h3>Step 2: Add the Motion Planning Plugin</h3>
+    <ol>
+        <li>In the RViz Displays tab, click <strong>Add</strong>.</li>
+        <img src="images/2.png" alt="Add Display">
+        <li>From the <code>moveit_ros_visualization</code> folder, select <strong>MotionPlanning</strong> as the Display Type and click OK.</li>
+        <img src="images/3.png" alt="Select MotionPlanning">
+        <li>The Panda robot arm should now appear in the viewport.</li>
+        <img src="images/4.png" alt="Panda Robot Arm">
+    </ol>
+
+    <h3>Step 3: Configure the Plugin</h3>
+    <p>Click on <strong>MotionPlanning</strong> in the Displays panel and configure the following:</p>
+    <ul>
+        <li>In <strong>Global Options</strong>, set the Fixed Frame to <code>/panda_link0</code></li>
+        <li>In <strong>Planning Request</strong>, change the Planning Group to <code>panda_arm</code></li>
+    </ul>
+    <p>These two settings are essential — they tell MoveIt which coordinate frame and which joint group to plan for.</p>
+
+    <h3>Step 4: Set Up Interactive Markers</h3>
+    <p>Enable both the start and goal state markers so you can interact with the arm:</p>
+    <ol start="4">
+        <li>Under Planning Request, check <strong>Query Start State</strong> — this shows a green arm representing where the robot begins.</li>
+        <li>Under Planning Request, check <strong>Query Goal State</strong> — this shows an orange arm representing where the robot should move to.</li>
+        <li>If you do not see the drag handles, click <strong>Interact</strong> in the RViz top menu (add it via the + button if missing).</li>
+    </ol>
+    <p>You can now drag both arms to any position in the workspace. Try moving them around!</p>
+
+    <h3>Step 5: Explore Collision Detection</h3>
+    <p>MoveIt can detect when links collide with each other in real time.</p>
+    <ol start="7">
+        <li>Uncheck Query Goal State temporarily so only the green (start) arm is visible.</li>
+        <li>Drag the arm until two links overlap — they will turn red, indicating a collision.</li>
+        <li>Now check <strong>Use Collision-Aware IK</strong> in the Planning tab. Try again — the solver will now try to find a valid pose that avoids collision instead.</li>
+    </ol>
+    <blockquote><strong>Key insight:</strong> When Collision-Aware IK is on, the robot refuses impossible or unsafe poses. This is how real robots avoid self-damage.</blockquote>
+
+    <h3>Step 6: Plan a Motion</h3>
+    <p>Now plan an actual trajectory between your start and goal states:</p>
+    <ol start="10">
+        <li>Re-enable <strong>Show Robot Visual</strong> under Planned Path and check <strong>Show Trail</strong>.</li>
+        <li>Re-enable Query Goal State.</li>
+        <li>Drag the green arm (start) and orange arm (goal) to different positions. Make sure neither is in a collision state.</li>
+        <li>In the MotionPlanning panel, click the <strong>Plan</strong> button.</li>
+        <li>Watch the arm animate through the planned path, with a trail showing the end-effector trajectory.</li>
+    </ol>
+
+    <h3>Step 7: Try Cartesian Planning</h3>
+    <p>By default, MoveIt plans in joint space. Enabling Cartesian mode forces the end-effector to move in a straight line.</p>
+    <ol start="15">
+        <li>In the Planning tab, check <strong>Use Cartesian Path</strong>.</li>
+        <li>Move the goal state and click Plan again.</li>
+        <li>Observe how the motion is now a direct straight-line path vs. the curved joint-space motion from before.</li>
+    </ol>
+    <blockquote>This is useful in tasks like welding or painting where the tool must follow a precise linear path.</blockquote>
+
+    <h3>Step 8: Execute &amp; Adjust Speed</h3>
+    <p>Click <strong>Plan &amp; Execute</strong> to send the trajectory to the simulated robot. The robot will move in the simulation.</p>
+    <p>The default velocity and acceleration are set to 10% of the robot's maximum. You can increase these using the speed sliders in the Planning tab — but move carefully when increasing speed in a real robot context.</p>
+
+    <h3>Bonus: Inspect Waypoints with the Trajectory Slider</h3>
+    <ol start="18">
+        <li>From the Panels menu, select <strong>Trajectory &gt; Trajectory Slider</strong>.</li>
+        <li>Plan a motion, then use the Slider panel to step through each waypoint of the trajectory one by one.</li>
+        <li>Click Play to animate through them automatically.</li>
+    </ol>
+    <blockquote>This is a great debugging tool to understand exactly how MoveIt breaks a motion into discrete steps.</blockquote>
+
+    <h3>Save Your RViz Configuration</h3>
+    <p>Once you are happy with your setup, save it so you don't have to reconfigure next time:</p>
+    <ol start="21">
+        <li>In RViz, go to <strong>File &gt; Save Config As</strong>.</li>
+        <li>Save to <code>moveit2_tutorials/doc/tutorials/quickstart_in_rviz/launch/</code> and rebuild the workspace.</li>
+        <li>Load it next time with:</li>
+    </ol>
+    <pre><button class="copy-btn" onclick="copyCode(this)">Copy</button><code>ros2 launch moveit2_tutorials demo.launch.py rviz_config:=your_rviz_config.rviz</code></pre>
+
+    <hr>
+
+    <h1 style="margin-top: 60px;">MoveIt Workshop — Part 1</h1>
+    <h2 style="text-align: center; border-bottom: none;">Control the Robotic Arm with Joint State Publisher</h2>
+    <p style="text-align: center; font-style: italic;">Hands-On Joint Control Exercise</p>
+
+    <p>In this part, you will control the robotic arm manually and move it around using the Joint State Publisher. You will also have a chance to interact with a block in the scene and try to catch it with the gripper.</p>
+
+    <h3>Launch the Joint Control Demo</h3>
+    <p>Run the following commands to start the joint control demo with a cube:</p>
+    <pre><button class="copy-btn" onclick="copyCode(this)">Copy</button><code>cd ~/ws_moveit2
+source install/setup.bash
+unset GTK_PATH
+export LD_LIBRARY_PATH=$(echo "$LD_LIBRARY_PATH" | tr ':' '\n' | grep -v snap | tr '\n' ':')
+ros2 launch mtc_tutorial joint_control_with_cube.launch.py</code></pre>
+
+    <p>Use the Joint State Publisher GUI to move each joint of the robotic arm. Try positioning the arm to reach the block and attempt to grasp it!</p>
+
+    <hr>
+
+    <h1 style="margin-top: 60px;">MoveIt Workshop — Part 2</h1>
+    <h2 style="text-align: center; border-bottom: none;">Pick &amp; Place with MoveIt Task Constructor</h2>
+    <p style="text-align: center; font-style: italic;">Hands-On Code Walkthrough</p>
+
+    <h2>What is MoveIt Task Constructor (MTC)?</h2>
+    <p>In Part 1, you planned a single motion — move the arm from point A to point B. But real robot tasks are made of many steps: open the gripper, approach the object, grasp it, lift it, move to a new location, and place it down.</p>
+    <p>MoveIt Task Constructor (MTC) lets you define these multi-step tasks as a sequence of stages. Each stage is responsible for one small piece of the overall plan, and MTC connects them together automatically.</p>
+    <blockquote><em>Think of it like a recipe: each stage is one instruction. MTC figures out how to connect each step to the next so the whole plan works together.</em></blockquote>
+
+    
+    <h2>Launch &amp; Observe MTC in Action</h2>
+
+   
+    <p>Open two terminals. In <strong>Terminal 1</strong>, launch the MoveIt environment and RViz:</p>
+    <pre><button class="copy-btn" onclick="copyCode(this)">Copy</button><code>cd ~/ws_moveit2
+ 
+source install/setup.bash
+unset GTK_PATH
+export LD_LIBRARY_PATH=$(echo "$LD_LIBRARY_PATH" | tr ':' '\n' | grep -v snap | tr '\n' ':')
+ros2 launch moveit2_tutorials mtc_demo.launch.py</code></pre>
+
+    <p>In <strong>Terminal 2</strong>, launch your pick and place node:</p>
+    <pre><button class="copy-btn" onclick="copyCode(this)">Copy</button><code>cd ~/ws_moveit2
+ 
+source install/setup.bash
+unset GTK_PATH
+export LD_LIBRARY_PATH=$(echo "$LD_LIBRARY_PATH" | tr ':' '\n' | grep -v snap | tr '\n' ':')
+ ros2 launch mtc_tutorial pick_place_demo.launch.py</code></pre>
+
+    <hr>
+
+    <h2> Reading the Terminal Output</h2>
+    <p>When MTC runs, it prints a stage diagram to the terminal. Here is how to read it:</p>
+    <pre class="no-copy"><code>1  - ←   1 →   -  0 / initial_state
+-  0 →   0 →   -  0 / move_to_home</code></pre>
+
+    <ul>
+        <li>The numbers to the left/right of the arrows show how many solutions were propagated backward / forward.</li>
+        <li>The number between the arrows shows how many solutions were generated by the stage.</li>
+        <li>A <strong>0</strong> between the arrows means the stage failed to find a solution — this is the stage to debug.</li>
+        <li>If a stage shows 0 solutions propagated forward, check the stage before it for the root cause.</li>
+    </ul>
+
+    <blockquote><strong>Common failure:</strong> if planning fails, try increasing <code>setTimeout()</code> on your Connect stages, or check that the cylinder is within the robot's reach by adjusting its position in <code>setupPlanningScene()</code>.</blockquote>
+
+    <hr>
+
+    <h2>Quick Reference: Stage Types</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Stage Type</th>
+                <th>Example</th>
+                <th>What it does</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><strong>Generator</strong></td>
+                <td>CurrentState, GenerateGraspPose</td>
+                <td>Creates starting points for planning; no input needed</td>
+            </tr>
+            <tr>
+                <td><strong>Propagator</strong></td>
+                <td>MoveRelative, MoveTo</td>
+                <td>Takes a state and extends it; moves the robot</td>
+            </tr>
+            <tr>
+                <td><strong>Connector</strong></td>
+                <td>Connect</td>
+                <td>Bridges two stages by planning the motion between them</td>
+            </tr>
+            <tr>
+                <td><strong>Container</strong></td>
+                <td>SerialContainer</td>
+                <td>Groups multiple stages together as one logical unit</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <script>
+        function copyCode(button) {
+            const pre = button.parentElement;
+            const code = pre.querySelector('code');
+            const text = code ? code.innerText : pre.innerText;
+            
+            navigator.clipboard.writeText(text).then(() => {
+                const originalText = button.innerText;
+                button.innerText = 'Copied!';
+                button.style.backgroundColor = '#00cc66';
+                setTimeout(() => {
+                    button.innerText = originalText;
+                    button.style.backgroundColor = '#4a9eff';
+                }, 2000);
+            });
+        }
+    </script>
+
+</body>
+</html>
